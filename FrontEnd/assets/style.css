@@ -186,3 +186,33 @@ footer nav ul {
 	margin: 2em
 }
 
+
+.Boutons{
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+
+	padding-bottom: 51px;
+	padding-top: 20px;
+
+	padding: 20px 0px 51px 50px;
+}
+
+.Boutons button{
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 16px;
+	color: #1D6154;
+
+	padding: 9px 20px 9px 20px;
+	
+	background-color: white;
+	border-radius: 60px;
+	border: 1px solid #1D6154;
+}
+
+.Boutons button:focus{
+	color: #ffffff;
+	background-color: #1D6154;
+
+}
