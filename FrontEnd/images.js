@@ -1,24 +1,77 @@
 const reponse = await fetch('http://localhost:5678/api/works');
 const works = await reponse.json();
+const reponse_2 = await fetch('http://localhost:5678/api/categories');
+const categories = await reponse_2.json();
 
 
-// Début création d'images à partir de l'API
 
-function genererImages(x){
+console.log(works);
+console.log(categories);
 
-    for (let i = 0; i < x.length; i++){
 
-    const article = x[i];
+
+
+function genererFiltres(works){
+
+
+        const presentationFiltre = document.querySelector(".filtres")
+
+        const filtreTous = document.createElement('button')
+        filtreTous.innerText = "Tous"
+        filtreTous.id = "Bouton_Tous"
+        filtreTous.dataset.numero = '0'
+        
+        presentationFiltre.appendChild(filtreTous)
+
+        
+        console.log(filtreTous)
+
+
+        const filters = works.map(work => work.category)
+        let comparatif = []
+       
+       
+    
+        for (const filter of filters){
+
+            if (comparatif.includes(filter.id) === false) {
+
+           
+
+            const filtreElement = document.createElement('button')
+            filtreElement.innerText = filter.name
+            
+
+            filtreElement.id = `Bouton_${filter.id}`
+            filtreElement.dataset.numero = filter.id
+            
+            
+            console.log(filtreElement)
+            
+            presentationFiltre.appendChild(filtreElement)
+
+            comparatif.push(filter.id)
+            }
+        }
+}
+
+genererFiltres(works);
+
+
+
+function genererImages(works){
+
+    for (const work of works){
 
     const presentationVignette = document.querySelector(".gallery");
 
     const vignetteElement = document.createElement ("figure");
 
     const imageElement = document.createElement("img");
-    imageElement.src = article.imageUrl;
+    imageElement.src = work.imageUrl;
 
     const nomElement = document.createElement("figcaption");
-    nomElement.innerText = article.title;
+    nomElement.innerText = work.title;
 
     presentationVignette.appendChild(vignetteElement);
     vignetteElement.appendChild(imageElement);
@@ -31,57 +84,70 @@ genererImages(works);
 
 
 
-//Fin création d'images à partir de l'API
+
+function activeFiltre(bouton){
+
+    if (bouton.dataset.numero == 0){
+
+        bouton.addEventListener("click", function() {
+            document.querySelector(".gallery").innerHTML = "";
+            genererImages(works)
+          });
 
 
-// Début Programmation Bouton
+    } else {
 
-
-const boutonTous= document.querySelector(".btn-tous");
-
-boutonTous.addEventListener("click", function () {
+    bouton.addEventListener("click",function(){
+    const imagesFiltrees = works.filter(function(work){
+        return work.category.id == bouton.dataset.numero
+    })
     document.querySelector(".gallery").innerHTML = "";
-    genererImages(works);
-});
+    genererImages(imagesFiltrees)
+    })
+}
+}
 
 
-const boutonObjets= document.querySelector(".btn-objets");
-
-boutonObjets.addEventListener("click", function () {
-    const objetsFiltres = works.filter(function(work) {
-        return work.category.name === "Objets"
-    });
-
-    document.querySelector(".gallery").innerHTML = "";
-    genererImages(objetsFiltres);
-});
-
-const boutonAppart= document.querySelector(".btn-appart");
-
-boutonAppart.addEventListener("click", function () {
-    const AppartFiltres = works.filter(function(work) {
-        return work.category.name === "Appartements"
-    });
-
-    document.querySelector(".gallery").innerHTML = "";
-    genererImages(AppartFiltres);
-});
+activeFiltre(Bouton_Tous)
+activeFiltre(Bouton_1)
+activeFiltre(Bouton_2)
+activeFiltre(Bouton_3)
 
 
 
-const boutonHotels= document.querySelector(".btn-hotels");
-
-boutonHotels.addEventListener("click", function () {
-    const HotelsFiltres = works.filter(function(work) {
-        return work.category.name === "Hotels & restaurants"
-    });
-
-    document.querySelector(".gallery").innerHTML = "";
-    genererImages(HotelsFiltres);
-});
 
 
 
-// Fin Programmation Boutons
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

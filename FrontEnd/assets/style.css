@@ -188,111 +188,36 @@ footer nav ul {
 
 
 
-/*Début Programmation CSS Elève */
-
-*{
-	background-color: #FFFEF8;
-}
-
-footer{
-	background-color: #ffffff;
-}
-
-#message, #email, #name{
-	background-color: #ffffff;
-}
+/* Début Prog Simon Garbet */
 
 
-
-
-
-
-.Boutons{
-	display: flex;
-	justify-content: center;
-	gap: 10px;
-
-	padding-bottom: 51px;
-	padding-top: 20px;
-
-	padding: 20px 0px 51px 50px;
-}
-
-
-.Boutons button{
+.filtres button {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 16px;
 	color: #1D6154;
 
-	padding: 9px 20px 9px 20px;
-	
-	background-color: white;
-	border-radius: 60px;
+	background: white;
+
 	border: 1px solid #1D6154;
+	border-radius: 60px;
+
+	padding:  10px;
 }
 
-.Boutons button:focus{
-	color: #ffffff;
-	background-color: #1D6154;
-
-}
-
-
-nav a {
-	text-decoration: none;
-	color: black;
+.filtres button:focus{
+	color: white;
+	background: #1D6154;
 }
 
 
-
-#login{
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin-top: 166px;
-	margin-bottom: 355px;
+.filtres{
 	width: 100%;
-}
-
-h2{
-	margin-bottom: 60px;
-}
-
-
-#login form{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-#login div{
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	width: 200%;
-}
-
-#login input[type="text"], #login input[type="email"]{
-	width: 100%;
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-	background-color: #ffffff;
-	height: 51px;
 	margin-bottom: 50px;
+
+
+	display: flex;
+	gap: 10px;
+	justify-content: center;
 }
 
-#login input[type="submit"]{
-	margin-top: 0px;
-	height: 36px;
-	border: none;
-}
-
-
-#login a {
-	color: #3D3D3D;
-}
-
-
-/* Fin Programmation Elève */
