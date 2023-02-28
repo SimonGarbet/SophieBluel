@@ -22,6 +22,7 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+	background-color: #FFFEF8;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -188,7 +189,23 @@ footer nav ul {
 
 
 
-/* Début Prog Simon Garbet */
+/* DEBUT PROG GIMON GARBET */
+
+
+
+/*Partie index*/
+
+
+
+nav a{
+	text-decoration: none;
+	color: black;
+}
+
+.onglet_actif{
+	font-weight: 600;
+}
+
 
 
 .filtres button {
@@ -221,3 +238,43 @@ footer nav ul {
 	justify-content: center;
 }
 
+
+
+
+/* Partie Login */
+
+
+
+
+#login, #login form{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 37px;
+}
+
+#login div{
+	display: flex;
+	flex-direction: column;
+	margin-right: 180px;
+}
+
+#mdp, #emailco{
+	height: 51px;
+	width: 200%;
+	border: none;
+	background: #FFFFFF;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#login input[type="submit"]{
+	border: none;
+	color: white;
+	padding: 10px;
+	margin: 0%;
+}
+
+#login a{
+	color: black;
+	margin-bottom: 355px;
+}
