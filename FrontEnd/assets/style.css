@@ -198,7 +198,8 @@ footer nav ul {
 
 /*Partie index*/
 
-.header_edition {
+#header_edition {
+	display: block;
 	background-color: black;
 
 	display: flex;
@@ -209,7 +210,7 @@ footer nav ul {
 	height: 60px;
 }
 
-.header_edition p, .header_edition i{
+#header_edition p, #header_edition i{
 	background-color: black;
 	color: white;
 
@@ -218,7 +219,7 @@ footer nav ul {
 }
 
 
-.header_edition button{
+#header_edition button{
 	background-color: white;
 	border-radius: 60px;
 

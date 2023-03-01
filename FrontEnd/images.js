@@ -1,12 +1,28 @@
 const reponse = await fetch('http://localhost:5678/api/works');
 const works = await reponse.json();
 const reponse_2 = await fetch('http://localhost:5678/api/categories');
-const categories = await reponse_2.json();
+const categories = await reponse_2.json(); 
 
 
 
+console.log(window.localStorage.getItem("clef"))
 console.log(works);
 console.log(categories);
+
+
+
+
+if ( window.localStorage.getItem("clef") === '1'){
+    header_edition.style.display = "flex";
+    bouton_modif_pp.style.display = "block";
+    bouton_modif_description.style.display = "block";
+    bouton_modif_projet.style.display = "block";
+} else {
+    header_edition.style.display = "none";
+    bouton_modif_pp.style.display = "none";
+    bouton_modif_description.style.display = "none";
+    bouton_modif_projet.style.display = "none";
+}
 
 
 
@@ -112,6 +128,7 @@ activeFiltre(Bouton_Tous)
 activeFiltre(Bouton_1)
 activeFiltre(Bouton_2)
 activeFiltre(Bouton_3)
+
 
 
 

@@ -9,6 +9,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+    <script type="module" src="login.js"></script>
 </head>
 <body>
 
@@ -30,7 +31,7 @@
 
         <section id="login">
             <h2>Log In</h2>
-                <form action="#" method="post">
+                <form class="envoi_login" >
                 <div>
                     <label for="emailco">E-mail</label>
                     <input type="email" name="emailco" id="emailco">
@@ -39,7 +40,7 @@
                     <label for="mdp">Mot de passe</label>
                     <input type="text" name="mdp" id="mdp">
                 </div>
-                <input type="submit" value="Se connecter">
+                <input type="submit" value="Se connecter" id="loginco">
                 </form>
             <a href="#">Mot de passe oublié</a>
         </section>
