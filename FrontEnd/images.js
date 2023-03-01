@@ -12,21 +12,6 @@ console.log(categories);
 
 
 
-if ( window.localStorage.getItem("clef") === '1'){
-    header_edition.style.display = "flex";
-    bouton_modif_pp.style.display = "block";
-    bouton_modif_description.style.display = "block";
-    bouton_modif_projet.style.display = "block";
-} else {
-    header_edition.style.display = "none";
-    bouton_modif_pp.style.display = "none";
-    bouton_modif_description.style.display = "none";
-    bouton_modif_projet.style.display = "none";
-}
-
-
-
-
 function genererFiltres(works){
 
 
@@ -71,7 +56,7 @@ function genererFiltres(works){
         }
 }
 
-genererFiltres(works);
+
 
 
 
@@ -97,6 +82,34 @@ function genererImages(works){
 
 
 genererImages(works);
+
+
+
+function switchAdmin () {
+
+if ( window.localStorage.getItem("clef") === '1'){
+
+    login_logout.innerText = "logout"
+    header_edition.style.display = "flex";
+    bouton_modif_pp.style.display = "block";
+    bouton_modif_description.style.display = "block";
+    bouton_modif_projet.style.display = "block";
+    
+} else {
+
+    login_logout.innerText = "login"
+    header_edition.style.display = "none";
+    bouton_modif_pp.style.display = "none";
+    bouton_modif_description.style.display = "none";
+    bouton_modif_projet.style.display = "none";
+
+    genererFiltres(works);
+}
+
+}
+
+
+switchAdmin()
 
 
 
