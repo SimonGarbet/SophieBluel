@@ -28,30 +28,30 @@ function genererFiltres(works){
         console.log(filtreTous)
 
 
-        const filters = works.map(work => work.category)
+        
         let comparatif = []
        
        
     
-        for (const filter of filters){
+        for (const work of works){
 
-            if (comparatif.includes(filter.id) === false) {
+            if (comparatif.includes(work.categoryId) === false) {
 
            
 
             const filtreElement = document.createElement('button')
-            filtreElement.innerText = filter.name
+            filtreElement.innerText = work.category.name
             
 
-            filtreElement.id = `Bouton_${filter.id}`
-            filtreElement.dataset.numero = filter.id
+            filtreElement.id = `Bouton_${work.categoryId}`
+            filtreElement.dataset.numero = work.categoryId
             
             
             console.log(filtreElement)
             
             presentationFiltre.appendChild(filtreElement)
 
-            comparatif.push(filter.id)
+            comparatif.push(work.categoryId)
             }
         }
 }
@@ -85,31 +85,7 @@ genererImages(works);
 
 
 
-function switchAdmin () {
 
-if ( window.localStorage.getItem("clef") === '1'){
-
-    login_logout.innerText = "logout"
-    header_edition.style.display = "flex";
-    bouton_modif_pp.style.display = "block";
-    bouton_modif_description.style.display = "block";
-    bouton_modif_projet.style.display = "block";
-    
-} else {
-
-    login_logout.innerText = "login"
-    header_edition.style.display = "none";
-    bouton_modif_pp.style.display = "none";
-    bouton_modif_description.style.display = "none";
-    bouton_modif_projet.style.display = "none";
-
-    genererFiltres(works);
-}
-
-}
-
-
-switchAdmin()
 
 
 
@@ -137,12 +113,37 @@ function activeFiltre(bouton){
 }
 
 
-activeFiltre(Bouton_Tous)
-activeFiltre(Bouton_1)
-activeFiltre(Bouton_2)
-activeFiltre(Bouton_3)
 
 
+function switchAdmin () {
+
+    if ( window.localStorage.getItem("clef") === '1'){
+    
+        login_logout.innerText = "logout"
+        header_edition.style.display = "flex";
+        bouton_modif_pp.style.display = "block";
+        bouton_modif_description.style.display = "block";
+        bouton_modif_projet.style.display = "block";
+        
+    } else {
+    
+        login_logout.innerText = "login"
+        header_edition.style.display = "none";
+        bouton_modif_pp.style.display = "none";
+        bouton_modif_description.style.display = "none";
+        bouton_modif_projet.style.display = "none";
+    
+        genererFiltres(works);
+        activeFiltre(Bouton_Tous)
+        activeFiltre(Bouton_1)
+        activeFiltre(Bouton_2)
+        activeFiltre(Bouton_3)
+    }
+    
+    }
+    
+    
+     switchAdmin()
 
 
 
