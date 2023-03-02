@@ -10,6 +10,34 @@ console.log(works);
 console.log(categories);
 
 
+// Partie Génération Images
+
+function genererImages(works){
+
+    for (const work of works){
+
+    const presentationVignette = document.querySelector(".gallery");
+
+    const vignetteElement = document.createElement ("figure");
+
+    const imageElement = document.createElement("img");
+    imageElement.src = work.imageUrl;
+
+    const nomElement = document.createElement("figcaption");
+    nomElement.innerText = work.title;
+
+    presentationVignette.appendChild(vignetteElement);
+    vignetteElement.appendChild(imageElement);
+    vignetteElement.appendChild(nomElement);
+
+    }}
+
+
+genererImages(works);
+
+
+
+// Partie Génération/Activation Filtres
 
 
 function genererFiltres(works){
@@ -58,38 +86,6 @@ function genererFiltres(works){
 
 
 
-
-
-function genererImages(works){
-
-    for (const work of works){
-
-    const presentationVignette = document.querySelector(".gallery");
-
-    const vignetteElement = document.createElement ("figure");
-
-    const imageElement = document.createElement("img");
-    imageElement.src = work.imageUrl;
-
-    const nomElement = document.createElement("figcaption");
-    nomElement.innerText = work.title;
-
-    presentationVignette.appendChild(vignetteElement);
-    vignetteElement.appendChild(imageElement);
-    vignetteElement.appendChild(nomElement);
-
-    }}
-
-
-genererImages(works);
-
-
-
-
-
-
-
-
 function activeFiltre(bouton){
 
     if (bouton.dataset.numero == 0){
@@ -115,23 +111,46 @@ function activeFiltre(bouton){
 
 
 
+// Partie Admin
+
+
+function createEditionMode (){
+    const logo_edition = "<i class=\"fa-regular fa-pen-to-square\"></i>"
+    const mode_edition = "<p>Mode édition</p>"
+    const publierChange = "<button id=\"publier_changements\">publier les changements</button>"
+    
+    header_edition.innerHTML = logo_edition + mode_edition + publierChange
+
+    modifPP.innerHTML = "<button id=\"bouton_modif_pp\"><i class=\"fa-regular fa-pen-to-square\"></i> modifier</button>"
+    modifDesc.innerHTML =  "<button id=\"bouton_modif_description\"><i class=\"fa-regular fa-pen-to-square\"></i> modifier</button>"
+    modifProj.innerHTML = "<button id=\"bouton_modif_projet\"><i class=\"fa-regular fa-pen-to-square\"></i> modifier</button>"
+}
+
+
+
+
+
 function switchAdmin () {
 
-    if ( window.localStorage.getItem("clef") === '1'){
-    
-        login_logout.innerText = "logout"
-        header_edition.style.display = "flex";
-        bouton_modif_pp.style.display = "block";
-        bouton_modif_description.style.display = "block";
-        bouton_modif_projet.style.display = "block";
+    if ( window.localStorage.getItem("clef") !== null){
+
+        createEditionMode()
+        
+       login_logout.innerText = "logout"
+
+       login_logout.addEventListener("click",function(){
+        window.localStorage.removeItem("clef")
+        switchAdmin()
+    })
+
         
     } else {
     
         login_logout.innerText = "login"
-        header_edition.style.display = "none";
-        bouton_modif_pp.style.display = "none";
-        bouton_modif_description.style.display = "none";
-        bouton_modif_projet.style.display = "none";
+
+        login_logout.addEventListener("click",function(){
+            window.location.href= 'login.html'
+        })
     
         genererFiltres(works);
         activeFiltre(Bouton_Tous)
@@ -144,6 +163,13 @@ function switchAdmin () {
     
     
      switchAdmin()
+
+
+
+
+     
+
+     // Partie Modale
 
 
 

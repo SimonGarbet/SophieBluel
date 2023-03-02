@@ -1,5 +1,3 @@
-
-
 async function seLogin () {
 
     const envoi_login = document.querySelector(".envoi_login")
@@ -31,7 +29,13 @@ async function seLogin () {
     if (reponse_login.status === 200){
         
         console.log(value)
-        window.localStorage.setItem("clef", value.userId)
+
+        let clef = {
+            userId: value.userId,
+            token: value.token
+        }
+        window.localStorage.setItem("clef", JSON.stringify(clef))
+
         console.log(window.localStorage.getItem("clef"))
         window.location.href= 'index.html'
 
@@ -49,7 +53,6 @@ async function seLogin () {
     })
 
 }
-
 
 window.localStorage.removeItem("clef")
 

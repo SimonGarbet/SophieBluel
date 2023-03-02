@@ -10,15 +10,12 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src="https://kit.fontawesome.com/685bf127ef.js" crossorigin="anonymous"></script>
-	<script type="module" src="images.js"></script>
+	<script type="module" src="index.js"></script>
 	
 </head>
 <body>
 <header>
 	<div id="header_edition">
-		<i class="fa-regular fa-pen-to-square"></i>
-		<p>Mode édition</p>
-		<button id="publier_changements">publier les changements</button>
 	</div>
 	<div class="en_tete">
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
@@ -26,7 +23,7 @@
 			<ul>
 				<a href="index.html"><li class="onglet_actif">projets</li></a>
 				<li>contact</li>
-				<a href="login.html"><li id="login_logout">login</li></a>
+				<li id="login_logout">login</li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
@@ -36,10 +33,10 @@
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
-			<button id="bouton_modif_pp"><i class="fa-regular fa-pen-to-square"></i> modifier</button>
+			<div id="modifPP"></div>
 		</figure>
 		<article>
-			<button id="bouton_modif_description"><i class="fa-regular fa-pen-to-square"></i> modifier</button>
+			<div id="modifDesc"></div>
 			<h2>Designer d'espace</h2>
 			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
 			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
@@ -50,7 +47,7 @@
 	<section id="portfolio">
 		<div class="projet_edition">
 			<h2>Mes Projets</h2>
-			<button id="bouton_modif_projet"><i class="fa-regular fa-pen-to-square"></i> modifier</button>
+			<div id="modifProj"></div>
 		</div>
 		<div class="filtres">
 		</div>
