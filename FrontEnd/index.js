@@ -9,12 +9,21 @@ console.log(window.localStorage.getItem("clef"))
 console.log(works);
 console.log(categories);
 
+const auth = JSON.parse(localStorage.getItem("clef"));
+const comparatifSuppr = []
+
+console.log(comparatifSuppr)
+
 
 // Partie Génération Images
 
 function genererImages(works){
 
     for (const work of works){
+
+        if (comparatifSuppr.includes(`${work.id}`)){
+
+        }  else {
 
     const presentationVignette = document.querySelector(".gallery");
 
@@ -29,6 +38,8 @@ function genererImages(works){
     presentationVignette.appendChild(vignetteElement);
     vignetteElement.appendChild(imageElement);
     vignetteElement.appendChild(nomElement);
+
+        }
 
     }}
 
@@ -195,6 +206,10 @@ function switchAdmin () {
      function genererImagesModale(){
 
         for (const work of works){
+
+            if (comparatifSuppr.includes(`${work.id}`)){
+    
+            }  else {
     
         const presentationModale = document.querySelector(".presentation-images")
     
@@ -228,9 +243,12 @@ function switchAdmin () {
         vignetteModale.appendChild(imageModale);
         vignetteModale.appendChild(boutonEdit);
 
+        
 
         affichageBoutonMove (imageModale, boutonMove, boutonSuppr)
+        previsuSupprimer (boutonSuppr, imageModale, vignetteModale)
 
+        }
 
     }
 }
@@ -250,7 +268,7 @@ function switchAdmin () {
         
         modalContainer.style.display = "flex"
         modal.style.display = "flex"
-        modal.innerHTML = "<button id=\"closeModal\"><i class=\"fa-solid fa-xmark\"></i></button>" 
+        modal.innerHTML = "<div class=\"div_closeModal\"><button id=\"closeModal\"><i class=\"fa-solid fa-xmark\"></i></button></div>" 
         + "<h3>Galerie Photo</h3>" 
         + "<div class=\"presentation-images\"></div>" 
         + "<button id=\"ajoutPhoto\">Ajouter une photo</button>" 
@@ -293,6 +311,7 @@ function switchAdmin () {
 
 
 
+
     
     modifProj.addEventListener("click",function(){
         genererModaleGalerie ()
@@ -319,7 +338,7 @@ function genererModaleAjout () {
     closeModal.style.paddingTop = "0"
 
     genererFormulaireAjout()
-    GenererCategorieAjout()
+    genererCategorieAjout()
 
     closeModal.addEventListener("click", fermerModale)
     backModal.addEventListener("click", function() {
@@ -327,7 +346,9 @@ function genererModaleAjout () {
         genererImagesModale()
     })
 
-    nouvelleImage.addEventListener('change', previewFile);
+    nouvelleImage.addEventListener('change', previewFile); 
+    imageAdd (btnValider, upload, nouvelleImage)
+    
 }
 
 
@@ -349,13 +370,11 @@ function genererFormulaireAjout () {
     + "<select id=\"categoryPhoto\">"
     + "</div>"
 
-	//+ "<div><input type=\"submit\" value=\"Valider\" id=\"btnValider\"></div>"
-
     + "</form>"
 }
 
 
-function GenererCategorieAjout () {
+function genererCategorieAjout () {
 
     for (const categorie of categories) {
 
@@ -377,6 +396,7 @@ function GenererCategorieAjout () {
 	upload.style.flexDirection= "column"
 	upload.style.alignItems= "center"
 	upload.style.gap= "20px"
+    
 }
 
 
@@ -390,20 +410,19 @@ function previewFile () {
         return;
     }
 
-    const file = this.files[0];
+    const file = this.files[0]
 
     const file_reader = new FileReader()
 
     file_reader.readAsDataURL(file);
 
-    
-    file_reader.addEventListener('load', (event) => displayImage(event,file))
+    file_reader.addEventListener('load', (event) => displayImage(event))
     
 }
 
 
 
-function displayImage(event, file) {
+function displayImage(event) {
 
     partieImageAjout.innerHTML=""
 
@@ -427,11 +446,152 @@ function displayImage(event, file) {
     
      
      
-// Suppression / Ajout d'Images        
+// Suppression / Ajout d'Images   
 
 
 
 
+function previsuSupprimer (boutonSuppr, imageModale, vignetteModale) {
+
+boutonSuppr.addEventListener("click", function(){
+
+
+    const demandeSuppr = confirm("Voulez-vous supprimer cette image ? Cette opération n'est pas définitive, appuyer sur publier les changements pour confirmer vos suppressions.")
+
+    if (demandeSuppr === true) {
+
+    comparatifSuppr.push(imageModale.getAttribute("data-idimage"))
+
+    console.log(comparatifSuppr)
+    
+
+    vignetteModale.style.display = "none"
+    document.querySelector(".gallery").innerHTML = ""
+    genererImages(works)
+    }
+
+})
+
+}
+
+
+
+
+async function imageSuppr (){
+
+    publier_changements.addEventListener("click", async function(event){
+    event.preventDefault()
+
+        console.log(comparatifSuppr)
+
+        const demandeSuppr_2 = confirm("Cette action supprimera définitivement les images choisies précédemment, êtes vous sûr ?")
+
+        if (demandeSuppr_2 === true) {
+
+            let i = 0
+
+            while (i <= (comparatifSuppr.length-1)){
+            
+                try {
+                    const envoi_suppr = await fetch(`http://localhost:5678/api/works/${comparatifSuppr[i]}`, {
+
+                    method: "DELETE",
+                    headers: {
+                        'Accept' : '*/*',
+                        'Authorization' : `Bearer ${auth.token}`
+                    },
+
+               
+
+                    })
+
+                    
+
+                } catch (error) {
+                    alert("Erreur")
+                }
+            
+                i ++
+
+            }
+
+                
+
+        }
+
+
+
+    })
+}
+
+imageSuppr()
+
+
+
+
+async function imageAdd (btnValider, upload, nouvelleImage) {
+
+    btnValider.addEventListener("click", function(){
+
+        if ( nouveauTitre.value === "" || nouvelleImage.value === "" ) {
+                    alert("Veuillez remplir correctement le formulaire")
+                    genererModaleAjout ()
+
+        } else {
+            
+            
+
+        const demandeAjout = confirm ("Voulez-vous ajouter cette photo ? Pour l'ajouter définitivement, appuyer sur publier les changements après cette opération")
+
+        if (demandeAjout === true) {
+
+            upload.addEventListener("submit", async function(event){
+            event.preventDefault()
+
+
+            const chargeUtileImage = new FormData()
+            chargeUtileImage.append('title', nouveauTitre.value)
+            chargeUtileImage.append('image', nouvelleImage.files[0])
+            chargeUtileImage.append('category', categoryPhoto.value)
+
+
+
+                try {
+
+                    const envoi_image = await fetch("http://localhost:5678/api/works", {
+                    method: "POST",
+                    headers: {
+                        'Accept' : "application/json",
+                        //'Content-type' : "multipart/form-data",
+                        'Authorization' : `Bearer ${auth.token}`
+                    },
+                    body: chargeUtileImage
+                    
+                })
+
+                const reception_image = await envoi_image.json()
+
+                    if (reception_image.status === 201) {
+
+                        genererImages(works);
+
+                    }
+
+
+
+                } catch (error) {
+                    alert("Erreur")
+                }
+                
+            })
+        
+            
+        }
+
+    }
+
+    })
+}
     
 
 

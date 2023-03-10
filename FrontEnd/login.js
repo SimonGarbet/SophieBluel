@@ -35,6 +35,7 @@ async function seLogin () {
             token: value.token
         }
         window.localStorage.setItem("clef", JSON.stringify(clef))
+        window.localStorage.setItem("userId", JSON.stringify(value.userId))
 
         console.log(window.localStorage.getItem("clef"))
         window.location.href= 'index.html'
