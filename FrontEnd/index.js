@@ -10,7 +10,9 @@ console.log(works);
 console.log(categories);
 
 const auth = JSON.parse(localStorage.getItem("clef"));
+
 const comparatifSuppr = []
+
 
 console.log(comparatifSuppr)
 
@@ -275,6 +277,8 @@ function switchAdmin () {
         + "<button class=\"supprimer-galerie\">Supprimer la galerie</button>";
 
         closeModal.addEventListener("click", fermerModale)
+        
+        overlay_modal_trigger.addEventListener("click", fermerModale)
 
         ajoutPhoto.addEventListener("click", genererModaleAjout)
 
@@ -341,6 +345,7 @@ function genererModaleAjout () {
     genererCategorieAjout()
 
     closeModal.addEventListener("click", fermerModale)
+
     backModal.addEventListener("click", function() {
         genererModaleGalerie ()
         genererImagesModale()
@@ -357,7 +362,7 @@ function genererFormulaireAjout () {
     formulaireAjout.innerHTML= "<form id=\"upload\">"
     + "<div id=\"partieImageAjout\">"
 	+	"<i class=\"fa-regular fa-image\"></i>"
-	+	"<input type=\"file\" id =\"nouvelleImage\" name =\"nouvelleImage\" accept=\"image/png, image.gif, image/jpeg\" hidden>"
+	+	"<input type=\"file\" id =\"nouvelleImage\" name =\"nouvelleImage\" accept=\".png, .jpeg, .jpg\" hidden>"
     +   "<label for = \"nouvelleImage\" class=\"decoFile\"> + Ajouter Photo </label>"
 	+	"<p>jpg, png : 4mo max</p>"
 	+    "</div>"
@@ -533,7 +538,13 @@ async function imageAdd (btnValider, upload, nouvelleImage) {
 
     btnValider.addEventListener("click", function(){
 
-        if ( nouveauTitre.value === "" || nouvelleImage.value === "" ) {
+        const image_extension_regex = /\.(jpeg|jpg|png)$/i
+
+        if (!image_extension_regex.test(nouvelleImage.value)){
+            alert("Le format d'image n'est pas approprié, veuillez selectionner un fichier jpg, jpeg ou png, d'une taille de 4Mo maximum")
+            genererModaleAjout()
+
+        } else if ( nouveauTitre.value === "" || nouvelleImage.value === "") {
                     alert("Veuillez remplir correctement le formulaire")
                     genererModaleAjout ()
 
@@ -569,13 +580,7 @@ async function imageAdd (btnValider, upload, nouvelleImage) {
                     
                 })
 
-                const reception_image = await envoi_image.json()
-
-                    if (reception_image.status === 201) {
-
-                        genererImages(works);
-
-                    }
+                
 
 
 
@@ -584,8 +589,11 @@ async function imageAdd (btnValider, upload, nouvelleImage) {
                 }
                 
             })
+
+
+        alert("Image bien reçue")
         
-            
+        
         }
 
     }
