@@ -1,5 +1,8 @@
 let comparatifSuppr = []
 const auth = JSON.parse(sessionStorage.getItem("clef"));
+console.log(window.sessionStorage.getItem("clef"));
+
+afficherPage();
 
 
 async function afficherPage () {
@@ -11,7 +14,7 @@ const categories = await reponse_2.json();
 
 
 
-console.log(window.sessionStorage.getItem("clef"))
+
 console.log(works);
 console.log(categories);
 
@@ -91,7 +94,6 @@ function genererFiltres(works){
             presentationFiltre.appendChild(filtreElement)
 
             comparatif.push(work.categoryId)
-            console.log(comparatif)
             }
         }
 }
@@ -628,4 +630,4 @@ async function imageAdd (btnValider, upload, nouvelleImage) {
 }
 
 
-afficherPage();
+
