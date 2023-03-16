@@ -1,3 +1,7 @@
+let comparatifSuppr = []
+const auth = JSON.parse(sessionStorage.getItem("clef"));
+
+
 async function afficherPage () {
 const reponse = await fetch('http://localhost:5678/api/works');
 const works = await reponse.json();
@@ -7,16 +11,9 @@ const categories = await reponse_2.json();
 
 
 
-console.log(window.localStorage.getItem("clef"))
+console.log(window.sessionStorage.getItem("clef"))
 console.log(works);
 console.log(categories);
-
-const auth = JSON.parse(localStorage.getItem("clef"));
-
-const comparatifSuppr = []
-
-
-console.log(comparatifSuppr)
 
 
 // Partie Génération Images
@@ -162,7 +159,7 @@ function supprimerEditionMode () {
 
 function switchAdmin () {
 
-    if ( window.localStorage.getItem("clef") !== null){
+    if ( window.sessionStorage.getItem("clef") !== null){
 
         createEditionMode()
         
@@ -171,7 +168,7 @@ function switchAdmin () {
        imageSuppr()
 
        login_logout.addEventListener("click",function(){
-        window.localStorage.removeItem("clef")
+        window.sessionStorage.removeItem("clef")
         switchAdmin()
 
         
@@ -532,9 +529,11 @@ async function imageSuppr (){
 
             }
 
+            comparatifSuppr = []
             fermerModale ();
             document.querySelector(".gallery").innerHTML = "";
-            afficherPage();    
+            afficherPage();
+            
 
         }
 
@@ -595,9 +594,7 @@ async function imageAdd (btnValider, upload, nouvelleImage) {
                     
                 })
 
-                fermerModale ();
-                document.querySelector(".gallery").innerHTML = "";
-                afficherPage();
+                
                 
 
 
@@ -606,6 +603,9 @@ async function imageAdd (btnValider, upload, nouvelleImage) {
                     alert("Erreur")
                 }
 
+            fermerModale ();
+            document.querySelector(".gallery").innerHTML = "";
+            afficherPage();
                 
             })
 
@@ -613,6 +613,9 @@ async function imageAdd (btnValider, upload, nouvelleImage) {
         alert("Image bien reçue");
         
         }
+
+        
+
 
     }
 

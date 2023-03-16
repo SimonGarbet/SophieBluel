@@ -34,10 +34,10 @@ async function seLogin () {
             userId: value.userId,
             token: value.token
         }
-        window.localStorage.setItem("clef", JSON.stringify(clef))
-        window.localStorage.setItem("userId", JSON.stringify(value.userId))
+        window.sessionStorage.setItem("clef", JSON.stringify(clef))
+        window.sessionStorage.setItem("userId", JSON.stringify(value.userId))
 
-        console.log(window.localStorage.getItem("clef"))
+        console.log(window.sessionStorage.getItem("clef"))
         window.location.href= 'index.html'
 
     } else if (reponse_login.status === 401){
@@ -57,11 +57,11 @@ async function seLogin () {
 
 }
 
-window.localStorage.removeItem("clef")
+window.sessionStorage.removeItem("clef")
 
 seLogin()
 
-console.log(window.localStorage.getItem("clef"))
+console.log(window.sessionStorage.getItem("clef"))
 
 
 
