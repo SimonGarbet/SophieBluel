@@ -1,7 +1,9 @@
+async function afficherPage () {
 const reponse = await fetch('http://localhost:5678/api/works');
 const works = await reponse.json();
 const reponse_2 = await fetch('http://localhost:5678/api/categories');
 const categories = await reponse_2.json(); 
+
 
 
 
@@ -92,6 +94,7 @@ function genererFiltres(works){
             presentationFiltre.appendChild(filtreElement)
 
             comparatif.push(work.categoryId)
+            console.log(comparatif)
             }
         }
 }
@@ -165,9 +168,13 @@ function switchAdmin () {
         
        login_logout.innerText = "logout"
 
+       imageSuppr()
+
        login_logout.addEventListener("click",function(){
         window.localStorage.removeItem("clef")
         switchAdmin()
+
+        
 
     })
 
@@ -415,6 +422,11 @@ function previewFile () {
         return;
     }
 
+    if (this.files[0].size > 4000000){
+        alert('Image trop lourde, max 4Mo');
+        return;
+    }
+
     const file = this.files[0]
 
     const file_reader = new FileReader()
@@ -506,7 +518,7 @@ async function imageSuppr (){
                         'Authorization' : `Bearer ${auth.token}`
                     },
 
-               
+                    
 
                     })
 
@@ -520,7 +532,9 @@ async function imageSuppr (){
 
             }
 
-                
+            fermerModale ();
+            document.querySelector(".gallery").innerHTML = "";
+            afficherPage();    
 
         }
 
@@ -529,7 +543,6 @@ async function imageSuppr (){
     })
 }
 
-imageSuppr()
 
 
 
@@ -540,8 +553,10 @@ async function imageAdd (btnValider, upload, nouvelleImage) {
 
         const image_extension_regex = /\.(jpeg|jpg|png)$/i
 
-        if (!image_extension_regex.test(nouvelleImage.value)){
-            alert("Le format d'image n'est pas approprié, veuillez selectionner un fichier jpg, jpeg ou png, d'une taille de 4Mo maximum")
+        console.log(nouvelleImage.value)
+
+        if ((!image_extension_regex.test(nouvelleImage.value)) || (nouvelleImage.size > 4000000)){
+            alert("Le format d'image n'est pas approprié, veuillez selectionner un fichier jpg, jpeg ou png")
             genererModaleAjout()
 
         } else if ( nouveauTitre.value === "" || nouvelleImage.value === "") {
@@ -580,6 +595,9 @@ async function imageAdd (btnValider, upload, nouvelleImage) {
                     
                 })
 
+                fermerModale ();
+                document.querySelector(".gallery").innerHTML = "";
+                afficherPage();
                 
 
 
@@ -587,12 +605,12 @@ async function imageAdd (btnValider, upload, nouvelleImage) {
                 } catch (error) {
                     alert("Erreur")
                 }
+
                 
             })
 
-
-        alert("Image bien reçue")
         
+        alert("Image bien reçue");
         
         }
 
@@ -604,7 +622,7 @@ async function imageAdd (btnValider, upload, nouvelleImage) {
 
 
 
+}
 
 
-
-
+afficherPage();
