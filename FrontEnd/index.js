@@ -2,21 +2,24 @@ let comparatifSuppr = []
 const auth = JSON.parse(sessionStorage.getItem("clef"));
 console.log(window.sessionStorage.getItem("clef"));
 
-afficherPage();
+
 
 
 async function afficherPage () {
+    
 const reponse = await fetch('http://localhost:5678/api/works');
 const works = await reponse.json();
 const reponse_2 = await fetch('http://localhost:5678/api/categories');
 const categories = await reponse_2.json(); 
 
+genererImages(works)
+switchAdmin (works, categories)
+
+}
 
 
+afficherPage();
 
-
-console.log(works);
-console.log(categories);
 
 
 // Partie Génération Images
@@ -48,7 +51,7 @@ function genererImages(works){
     }}
 
 
-genererImages(works);
+
 
 
 // Partie Génération/Activation Filtres
@@ -100,7 +103,7 @@ function genererFiltres(works){
 
 
 
-function activeFiltre(bouton){
+function activeFiltre(bouton, works){
 
     if (bouton.dataset.numero == 0){
 
@@ -159,7 +162,7 @@ function supprimerEditionMode () {
 
 
 
-function switchAdmin () {
+function switchAdmin (works, categories) {
 
     if ( window.sessionStorage.getItem("clef") !== null){
 
@@ -171,12 +174,13 @@ function switchAdmin () {
 
        login_logout.addEventListener("click",function(){
         window.sessionStorage.removeItem("clef")
-        switchAdmin()
+        switchAdmin(works, categories)
+        })
 
-        
-
-    })
-
+        modifProj.addEventListener("click",function(){
+            genererModaleGalerie (works, categories)
+            genererImagesModale(works)
+        })
         
     } else {
     
@@ -187,10 +191,10 @@ function switchAdmin () {
         })
     
         genererFiltres(works);
-        activeFiltre(Bouton_Tous)
-        activeFiltre(Bouton_1)
-        activeFiltre(Bouton_2)
-        activeFiltre(Bouton_3)
+        activeFiltre(Bouton_Tous, works)
+        activeFiltre(Bouton_1, works)
+        activeFiltre(Bouton_2, works)
+        activeFiltre(Bouton_3, works)
         supprimerEditionMode()
 
     }
@@ -198,7 +202,7 @@ function switchAdmin () {
     }
     
     
-     switchAdmin()
+   
 
 
 
@@ -209,9 +213,28 @@ function switchAdmin () {
 
     //Modale 1
 
+    function genererModaleGalerie (works, categories) {
+        
+        modalContainer.style.display = "flex"
+        modal.style.display = "flex"
+        modal.innerHTML = "<div class=\"div_closeModal\"><button id=\"closeModal\"><i class=\"fa-solid fa-xmark\"></i></button></div>" 
+        + "<h3>Galerie Photo</h3>" 
+        + "<div class=\"presentation-images\"></div>" 
+        + "<button id=\"ajoutPhoto\">Ajouter une photo</button>" 
+        + "<button class=\"supprimer-galerie\">Supprimer la galerie</button>";
+
+        closeModal.addEventListener("click", fermerModale)
+        
+        overlay_modal_trigger.addEventListener("click", fermerModale)
+
+        ajoutPhoto.addEventListener("click", function() {
+            genererModaleAjout(works, categories)
+        })
+               
+    }
 
 
-     function genererImagesModale(){
+     function genererImagesModale(works){
 
         for (const work of works){
 
@@ -254,7 +277,7 @@ function switchAdmin () {
         
 
         affichageBoutonMove (imageModale, boutonMove, boutonSuppr)
-        previsuSupprimer (boutonSuppr, imageModale, vignetteModale)
+        previsuSupprimer (boutonSuppr, imageModale, vignetteModale, works)
 
         }
 
@@ -270,27 +293,6 @@ function switchAdmin () {
             modal.innerHTML = ""
             
     }
-
-
-     function genererModaleGalerie () {
-        
-        modalContainer.style.display = "flex"
-        modal.style.display = "flex"
-        modal.innerHTML = "<div class=\"div_closeModal\"><button id=\"closeModal\"><i class=\"fa-solid fa-xmark\"></i></button></div>" 
-        + "<h3>Galerie Photo</h3>" 
-        + "<div class=\"presentation-images\"></div>" 
-        + "<button id=\"ajoutPhoto\">Ajouter une photo</button>" 
-        + "<button class=\"supprimer-galerie\">Supprimer la galerie</button>";
-
-        closeModal.addEventListener("click", fermerModale)
-        
-        overlay_modal_trigger.addEventListener("click", fermerModale)
-
-        ajoutPhoto.addEventListener("click", genererModaleAjout)
-
-        
-    }
-
 
     
     function affichageBoutonMove (imageModale, boutonMove,boutonSuppr) {
@@ -323,10 +325,7 @@ function switchAdmin () {
 
 
     
-    modifProj.addEventListener("click",function(){
-        genererModaleGalerie ()
-        genererImagesModale()
-    })
+    
 
 
 
@@ -336,7 +335,7 @@ function switchAdmin () {
 
 
 
-function genererModaleAjout () {
+function genererModaleAjout (works, categories) {
     modal.innerHTML = "<div class= \"boutons_top\">" 
     + "<button id=\"backModal\"><i class=\"fa-solid fa-arrow-left\"></i></button>"
     +"<button id=\"closeModal\"><i class=\"fa-solid fa-xmark\"></i></button>" 
@@ -348,17 +347,17 @@ function genererModaleAjout () {
     closeModal.style.paddingTop = "0"
 
     genererFormulaireAjout()
-    genererCategorieAjout()
+    genererCategorieAjout(categories)
 
     closeModal.addEventListener("click", fermerModale)
 
     backModal.addEventListener("click", function() {
-        genererModaleGalerie ()
-        genererImagesModale()
+        genererModaleGalerie (works, categories)
+        genererImagesModale(works)
     })
 
     nouvelleImage.addEventListener('change', previewFile); 
-    imageAdd (btnValider, upload, nouvelleImage)
+    imageAdd (btnValider, upload, nouvelleImage, works, categories)
     
 }
 
@@ -385,7 +384,7 @@ function genererFormulaireAjout () {
 }
 
 
-function genererCategorieAjout () {
+function genererCategorieAjout (categories) {
 
     for (const categorie of categories) {
 
@@ -467,7 +466,7 @@ function displayImage(event) {
 
 
 
-function previsuSupprimer (boutonSuppr, imageModale, vignetteModale) {
+function previsuSupprimer (boutonSuppr, imageModale, vignetteModale, works) {
 
 boutonSuppr.addEventListener("click", function(){
 
@@ -548,7 +547,7 @@ async function imageSuppr (){
 
 
 
-async function imageAdd (btnValider, upload, nouvelleImage) {
+async function imageAdd (btnValider, upload, nouvelleImage, works, categories) {
 
     btnValider.addEventListener("click", function(){
 
@@ -558,17 +557,17 @@ async function imageAdd (btnValider, upload, nouvelleImage) {
 
         if ((!image_extension_regex.test(nouvelleImage.value)) || (nouvelleImage.size > 4000000)){
             alert("Le format d'image n'est pas approprié, veuillez selectionner un fichier jpg, jpeg ou png")
-            genererModaleAjout()
+            genererModaleAjout(categories, works)
 
         } else if ( nouveauTitre.value === "" || nouvelleImage.value === "") {
                     alert("Veuillez remplir correctement le formulaire")
-                    genererModaleAjout ()
+                    genererModaleAjout (categories, works)
 
         } else {
             
             
 
-        const demandeAjout = confirm ("Voulez-vous ajouter cette photo ? Pour l'ajouter définitivement, appuyer sur publier les changements après cette opération")
+        const demandeAjout = confirm ("Voulez-vous ajouter cette image ?")
 
         if (demandeAjout === true) {
 
@@ -627,7 +626,7 @@ async function imageAdd (btnValider, upload, nouvelleImage) {
 
 
 
-}
+
 
 
 
