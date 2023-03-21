@@ -57,11 +57,11 @@ async function seLogin () {
 
 }
 
-window.sessionStorage.removeItem("clef")
+window.sessionStorage.removeItem("clef");
 
-seLogin()
+seLogin();
 
-console.log(window.sessionStorage.getItem("clef"))
+console.log(window.sessionStorage.getItem("clef"));
 
 
 

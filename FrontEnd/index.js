@@ -1,4 +1,4 @@
-let comparatifSuppr = []
+let comparatifSuppr = [];
 const auth = JSON.parse(sessionStorage.getItem("clef"));
 console.log(window.sessionStorage.getItem("clef"));
 
@@ -6,7 +6,7 @@ console.log(window.sessionStorage.getItem("clef"));
 
 
 async function afficherPage () {
-    
+
 const reponse = await fetch('http://localhost:5678/api/works');
 const works = await reponse.json();
 const reponse_2 = await fetch('http://localhost:5678/api/categories');
@@ -557,11 +557,11 @@ async function imageAdd (btnValider, upload, nouvelleImage, works, categories) {
 
         if ((!image_extension_regex.test(nouvelleImage.value)) || (nouvelleImage.size > 4000000)){
             alert("Le format d'image n'est pas approprié, veuillez selectionner un fichier jpg, jpeg ou png")
-            genererModaleAjout(categories, works)
+            genererModaleAjout(works, categories)
 
         } else if ( nouveauTitre.value === "" || nouvelleImage.value === "") {
                     alert("Veuillez remplir correctement le formulaire")
-                    genererModaleAjout (categories, works)
+                    genererModaleAjout (works, categories)
 
         } else {
             
