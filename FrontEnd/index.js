@@ -1,9 +1,22 @@
-let comparatifSuppr = [];
+/* IMPORTANT
+Pour pouvoir SUPPRIMER des images il y a deux étapes :
+-> Appuyer sur la corbeille depuis la Galerie de la Modale
+-> Appuyer sur Publier les Changements dans le bloc header d'édition
+
+Pour ajouter des images il n'y a qu'une seule étape au moment de la soumission du formulaire dans la modale d'Ajout.
+*/
+
+
+let comparatifSuppr = []; 
+// Tableau permattant le stockage des images supprimées pour pouvoir les prévisualiser avant de supprimer définitivement
+
+
 const auth = JSON.parse(sessionStorage.getItem("clef"));
 console.log(window.sessionStorage.getItem("clef"));
 
 
 
+// Récupération des Données de l'API avec la génération de la page qui se fait dynamique ensuite
 
 async function afficherPage () {
 
@@ -12,7 +25,6 @@ const works = await reponse.json();
 const reponse_2 = await fetch('http://localhost:5678/api/categories');
 const categories = await reponse_2.json(); 
 
-genererImages(works)
 switchAdmin (works, categories)
 
 }
@@ -22,7 +34,63 @@ afficherPage();
 
 
 
-// Partie Génération Images
+// Cette fonction fait portail d'entrée séparant visiteurs et administrateur 
+
+
+function switchAdmin (works, categories) {
+
+    if ( window.sessionStorage.getItem("clef") !== null){
+
+        genererImages(works)
+
+        createEditionMode()
+        
+       login_logout.innerText = "logout"
+
+       imageSuppr()
+
+       login_logout.addEventListener("click",function(){
+        window.sessionStorage.removeItem("clef")
+        document.querySelector(".gallery").innerHTML = "";
+        switchAdmin(works, categories)
+        })
+
+        modifProj.addEventListener("click",function(){
+            genererModaleGalerie (works, categories)
+            genererImagesModale(works)
+        })
+        
+    } else {
+
+        genererImages(works)
+    
+        login_logout.innerText = "login"
+
+        login_logout.addEventListener("click",function(){
+            window.location.href= 'login.html'
+        })
+    
+        genererFiltres(works);
+        activeFiltre(Bouton_Tous, works)
+        activeFiltre(Bouton_1, works)
+        activeFiltre(Bouton_2, works)
+        activeFiltre(Bouton_3, works)
+        supprimerEditionMode()
+
+    }
+    
+    }
+
+
+
+
+
+
+
+// Generation des Images à partir des données works récupérées de l'API
+
+
+
 
 function genererImages(works){
 
@@ -54,7 +122,7 @@ function genererImages(works){
 
 
 
-// Partie Génération/Activation Filtres
+// Génération des Filtres à partir des catégories renseignées depuis les works de l'API
 
 
 function genererFiltres(works){
@@ -103,6 +171,10 @@ function genererFiltres(works){
 
 
 
+// Activation des filtres
+
+
+
 function activeFiltre(bouton, works){
 
     if (bouton.dataset.numero == 0){
@@ -128,7 +200,11 @@ function activeFiltre(bouton, works){
 
 
 
-// Partie Admin
+
+
+
+
+// Génération et Suppression des blocs d'Administration (header d'édition, et boutons "modifier" ) en fonction d'Administrateur et Visiteur 
 
 
 function createEditionMode (){
@@ -158,48 +234,6 @@ function supprimerEditionMode () {
         modifProj.innerHTML = ""
 }
 
-
-
-
-
-function switchAdmin (works, categories) {
-
-    if ( window.sessionStorage.getItem("clef") !== null){
-
-        createEditionMode()
-        
-       login_logout.innerText = "logout"
-
-       imageSuppr()
-
-       login_logout.addEventListener("click",function(){
-        window.sessionStorage.removeItem("clef")
-        switchAdmin(works, categories)
-        })
-
-        modifProj.addEventListener("click",function(){
-            genererModaleGalerie (works, categories)
-            genererImagesModale(works)
-        })
-        
-    } else {
-    
-        login_logout.innerText = "login"
-
-        login_logout.addEventListener("click",function(){
-            window.location.href= 'login.html'
-        })
-    
-        genererFiltres(works);
-        activeFiltre(Bouton_Tous, works)
-        activeFiltre(Bouton_1, works)
-        activeFiltre(Bouton_2, works)
-        activeFiltre(Bouton_3, works)
-        supprimerEditionMode()
-
-    }
-    
-    }
     
     
    
@@ -209,9 +243,13 @@ function switchAdmin (works, categories) {
 
      
 
-     // Partie Modale
+     // Première Modale / Visualisation de la Galerie
 
-    //Modale 1
+
+
+
+
+    // Cette fonction génère la structure de la modale et récèptionne les addEventListeners
 
     function genererModaleGalerie (works, categories) {
         
@@ -232,6 +270,9 @@ function switchAdmin (works, categories) {
         })
                
     }
+
+    // Cette fonction génère les images dynamiquement dans la modale à partir les données de l'API
+    // Elle réceptionne les fonctions d'affichage du bouton pour bouger les projets et de prévisualisation de suppression
 
 
      function genererImagesModale(works){
@@ -286,6 +327,9 @@ function switchAdmin (works, categories) {
 
 
 
+// Fonction explicite
+
+
     function fermerModale () {
 
             modalContainer.style.display = "none"
@@ -295,6 +339,12 @@ function switchAdmin (works, categories) {
     }
 
     
+
+
+// Fonctions optionnelles sur lesquelles je me suis amusé à faire apparaitre le bouton déplacer au survol des images.
+
+
+
     function affichageBoutonMove (imageModale, boutonMove,boutonSuppr) {
 
 
@@ -330,9 +380,11 @@ function switchAdmin (works, categories) {
 
 
 
-// Modale 2
+// Seconde Modale / Ajout de Photo
     
 
+
+// Cette fonction intègre la structure globale de la seconde modale, ainsi que les addEventListeners
 
 
 function genererModaleAjout (works, categories) {
@@ -363,6 +415,9 @@ function genererModaleAjout (works, categories) {
 
 
 
+// Génération du formulaire Brut dans la structure de la seconde Modale
+
+
 function genererFormulaireAjout () {
     formulaireAjout.innerHTML= "<form id=\"upload\">"
     + "<div id=\"partieImageAjout\">"
@@ -382,6 +437,10 @@ function genererFormulaireAjout () {
 
     + "</form>"
 }
+
+
+
+// Génération dynamique du formulaire déroulant pour les catégories à partir de l'API
 
 
 function genererCategorieAjout (categories) {
@@ -411,7 +470,7 @@ function genererCategorieAjout (categories) {
 
 
 
-// Prévisualisation Image Modale 2
+// Les deux fonctions servent à limiter la taille de l'image de l'input file ainsi que de la prévisualisation de celle-ci
 
 
 function previewFile () {
@@ -461,7 +520,8 @@ function displayImage(event) {
     
      
      
-// Suppression / Ajout d'Images   
+// Permet d'avoir un visuel de la galerie et de l'index avec les projets supprimés 
+// Avec possibilité de revenir en arrière en actualisant la page sans appuyer sur publier les changements
 
 
 
@@ -490,6 +550,8 @@ boutonSuppr.addEventListener("click", function(){
 }
 
 
+
+// Suppression des images dans l'API
 
 
 async function imageSuppr (){
@@ -544,6 +606,8 @@ async function imageSuppr (){
 }
 
 
+
+// Ajout d'images dans l'API
 
 
 
