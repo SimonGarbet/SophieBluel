@@ -1,4 +1,4 @@
-// Récupération des logs de l'utilisateurs, stockage du token d'identification dans le Session Storage
+// Récupération des logs de l'utilisateur, stockage du token d'identification dans le Session Storage
 
 
 async function seLogin () {
