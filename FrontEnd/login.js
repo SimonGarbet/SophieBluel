@@ -1,3 +1,6 @@
+// Récupération des logs de l'utilisateurs, stockage du token d'identification dans le Session Storage
+
+
 async function seLogin () {
 
     const envoi_login = document.querySelector(".envoi_login")
