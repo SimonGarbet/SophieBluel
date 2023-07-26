@@ -16,16 +16,17 @@ console.log(window.sessionStorage.getItem("clef"));
 
 
 
-// Récupération des Données de l'API avec la génération de la page qui se fait dynamique ensuite
+// Récupération des Données de l'API avec la génération de la page qui se fait dynamiquement ensuite
 
 async function afficherPage () {
 
-const reponse = await fetch('http://localhost:5678/api/works');
-const works = await reponse.json();
-const reponse_2 = await fetch('http://localhost:5678/api/categories');
-const categories = await reponse_2.json(); 
+    const reponse = await fetch('http://localhost:5678/api/works');
+    const reponse_2 = await fetch('http://localhost:5678/api/categories');
 
-switchAdmin (works, categories)
+    const works = await reponse.json();
+    const categories = await reponse_2.json(); 
+
+    switchAdmin (works, categories)
 
 }
 
@@ -52,6 +53,7 @@ function switchAdmin (works, categories) {
        login_logout.addEventListener("click",function(){
         window.sessionStorage.removeItem("clef")
         document.querySelector(".gallery").innerHTML = "";
+        document.querySelector(".filtres").innerHTML = "";
         switchAdmin(works, categories)
         })
 
@@ -94,13 +96,15 @@ function switchAdmin (works, categories) {
 
 function genererImages(works){
 
+    const presentationVignette = document.querySelector(".gallery");
+
     for (const work of works){
 
         if (comparatifSuppr.includes(`${work.id}`)){
 
         }  else {
 
-    const presentationVignette = document.querySelector(".gallery");
+    
 
     const vignetteElement = document.createElement ("figure");
 
